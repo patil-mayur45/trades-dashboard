@@ -134,7 +134,7 @@ trade-dashboard/
 ```
 
 ## Deploying
-Backend: any Node host (Render, Railway, a VPS) with a MongoDB Atlas URI in `MONGO_URI` and `CLIENT_ORIGIN` set to the frontend URL. Frontend: `npm run build`, host `dist/` (Vercel/Netlify) with `VITE_API_URL` and `VITE_WS_URL` (`wss://…/ws`) pointing at the backend.
+Backend: any Node host (Render, Railway, a VPS) with a MongoDB Atlas URI in `MONGO_URI`. The backend allows the local frontend and `https://frontend-j5apl2n4c-web-plan.vercel.app` by default; set `CLIENT_ORIGIN` to add comma-separated frontend origins for your deployment. Frontend: `npm run build`, host `dist/` (Vercel/Netlify) with `VITE_API_URL` and `VITE_WS_URL` (`wss://…/ws`) pointing at the backend.
 
 ---
 Built by **Mayur Patil** · [GitHub](https://github.com/patil-mayur45)

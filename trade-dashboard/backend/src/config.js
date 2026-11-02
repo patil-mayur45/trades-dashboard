@@ -7,11 +7,18 @@ const num = (value, fallback) => {
 };
 
 const port = num(process.env.PORT, 5000);
+const clientOrigins = [
+  'http://localhost:5173',
+  'https://frontend-j5apl2n4c-web-plan.vercel.app',
+  ...(process.env.CLIENT_ORIGIN || '').split(','),
+]
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 export const config = {
   port,
   mongoUri: process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/trade-dashboard',
-  clientOrigins: (process.env.CLIENT_ORIGIN || 'http://localhost:5173').split(',').map((s) => s.trim()),
+  clientOrigins: [...new Set(clientOrigins)],
   bse: {
     baseUrl: process.env.BSE_API_URL || `http://127.0.0.1:${port}`,
     totalTrades: num(process.env.BSE_TOTAL_TRADES, 5000),
