@@ -1,5 +1,6 @@
 import dns from 'node:dns';
 dns.setServers(['8.8.8.8', '1.1.1.1']);
+
 import http from 'http';
 import express from 'express';
 import cors from 'cors';
@@ -14,7 +15,19 @@ import { recoverStaleJobs } from './services/pullWorker.js';
 
 const app = express();
 app.disable('x-powered-by');
-app.use(cors({ origin: config.clientOrigins }));
+
+// Allow the origins listed in CLIENT_ORIGIN, plus any *.vercel.app address
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      const allowed =
+        !origin ||
+        config.clientOrigins.includes(origin) ||
+        /^https:\/\/[a-z0-9-]+\.vercel\.app$/.test(origin);
+      callback(null, allowed);
+    },
+  })
+);
 app.use(express.json({ limit: '100kb' }));
 
 app.use(bseRouter); // GET /getTrades (mock BSE exchange)
